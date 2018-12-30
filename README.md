@@ -7,7 +7,7 @@ Tool is still under construction.
 ## Installation
 Clone the repository.
 
-**Dependecies**
+### Dependecies
 Fk-tiedotin is written in Python and uses following libraries: PyQt5, TinyDB.
 These can be installed with
 
