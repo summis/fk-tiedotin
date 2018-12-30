@@ -10,12 +10,16 @@ Clone the repository.
 *Dependecies*
 Fk-tiedotin is written in Python and uses following libraries: PyQt5, TinyDB.
 These can be installed with
-'<pip3 install pyqt5 tinydb>'
+
+`<pip3 install pyqt5 tinydb>`
 
 ## Usage
 Open GUI to add entries to database:
-'<python fk-tiedotin.py>'
+
+`<python fk-tiedotin.py>`
+
 Create bullettin form database entries:
-'<python newsletter.py>'
+
+`<python newsletter.py>`
 
 Entries are saved as json in data-folder and ready emails are saved in mails-folder. For every week new database and a new mail are created.
