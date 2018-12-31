@@ -50,6 +50,7 @@ class MainWindow(QDialog):
         radioButton1.setChecked(True)
 
         self.categorySelectionButtonGroup.addButton(radioButton1)
+        self.categorySelectionButtonGroup.addButton(radioButton2)
         self.categorySelectionButtonGroup.addButton(radioButton3)
 
         buttonLayout = QVBoxLayout()
