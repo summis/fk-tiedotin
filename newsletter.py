@@ -18,7 +18,6 @@ contents_en = ""
 # TODO
 # - sort entries by date
 # - english version
-# - maybe grepping URLs in the content and showing them as links
 # - some smart way to make first paragraph
 # - maybe categories could be defined only in one place instead of two
 
