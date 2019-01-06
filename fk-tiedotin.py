@@ -1,8 +1,9 @@
+from PyQt5 import QtCore
 from PyQt5.QtCore import QDateTime
 from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
         QRadioButton, QHBoxLayout, QVBoxLayout, QStyleFactory, QLineEdit, 
         QTextEdit, QLabel, QPushButton, QTabWidget, QWidget, QButtonGroup,
-        QDateEdit)
+        QDateEdit, QCheckBox)
 from database import saveEntry
 
 #TODO
@@ -13,9 +14,9 @@ class MainWindow(QDialog):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        languageSelectionTabWidget = QTabWidget()
-        tab1 = QWidget()
-        tab2 = QWidget()
+        #languageSelectionTabWidget = QTabWidget(self)
+        #tab1 = QWidget()
+        #tab2 = QWidget()
 
         self.createCategorySelectionGroupBox()
         self.createTextEditLayout()
@@ -25,15 +26,15 @@ class MainWindow(QDialog):
         mainLayout.addLayout(self.categorySelectionLayout, 0, 0)
         mainLayout.addLayout(self.textEditLayout, 1, 0)
         mainLayout.addLayout(self.buttonLayout, 2, 0)
-        #self.setLayout(mainLayout)
+        self.setLayout(mainLayout)
 
-        tab1.setLayout(mainLayout)
-        languageSelectionTabWidget.addTab(tab1, "Finnish")
-        languageSelectionTabWidget.addTab(tab2, "English")
+        #tab1.setLayout(mainLayout)
+        #languageSelectionTabWidget.addTab(tab1, "Finnish")
+        #languageSelectionTabWidget.addTab(tab2, "English")
 
-        mainMainLayout = QHBoxLayout()
-        mainMainLayout.addWidget(languageSelectionTabWidget)
-        self.setLayout(mainMainLayout)
+        #mainMainLayout = QHBoxLayout()
+        #mainMainLayout.addWidget(languageSelectionTabWidget)
+        ##self.setLayout(mainMainLayout)
 
         QApplication.setStyle(QStyleFactory.create("cleanlooks"))
         self.setWindowTitle("Fk-tiedotin")
@@ -41,24 +42,30 @@ class MainWindow(QDialog):
 
 
     def createCategorySelectionGroupBox(self):
+        self.languageCheckBox = QCheckBox("Put entry to English news letter", self)
+        self.languageCheckBox.stateChanged.connect(self.languageCheckBoxClicked)
+
         categorySelectionGroupBox = QGroupBox("Category")
         self.categorySelectionButtonGroup = QButtonGroup()
 
-        radioButton1 = QRadioButton("Killan tapahtumat")
-        radioButton2 = QRadioButton("AYY ja Aalto")
-        radioButton3 = QRadioButton("Yleistä")
-        radioButton1.setChecked(True)
+        self.radioButton1 = QRadioButton("Killan tapahtumat")
+        self.radioButton2 = QRadioButton("Muut yhdistykset")
+        self.radioButton3 = QRadioButton("Yleistä")
+        self.radioButton4 = QRadioButton("Opinnot")
+        self.radioButton1.setChecked(True)
 
-        self.categorySelectionButtonGroup.addButton(radioButton1)
-        self.categorySelectionButtonGroup.addButton(radioButton2)
-        self.categorySelectionButtonGroup.addButton(radioButton3)
+        self.categorySelectionButtonGroup.addButton(self.radioButton1)
+        self.categorySelectionButtonGroup.addButton(self.radioButton2)
+        self.categorySelectionButtonGroup.addButton(self.radioButton3)
+        self.categorySelectionButtonGroup.addButton(self.radioButton4)
 
         buttonLayout = QVBoxLayout()
-        buttonLayout.addWidget(radioButton1)
-        buttonLayout.addWidget(radioButton2)
-        buttonLayout.addWidget(radioButton3)
+        buttonLayout.addWidget(self.radioButton1)
+        buttonLayout.addWidget(self.radioButton2)
+        buttonLayout.addWidget(self.radioButton3)
+        buttonLayout.addWidget(self.radioButton4)
         categorySelectionGroupBox.setLayout(buttonLayout)
-        
+
         self.dateEdit = QDateEdit()
         self.dateEdit.setDateTime(QDateTime.currentDateTime())
         self.dateEdit.setCalendarPopup(True)
@@ -67,10 +74,23 @@ class MainWindow(QDialog):
         dateLabel.setBuddy(self.dateEdit)
 
         self.categorySelectionLayout = QVBoxLayout()
+        self.categorySelectionLayout.addWidget(self.languageCheckBox)
         self.categorySelectionLayout.addWidget(categorySelectionGroupBox)
         self.categorySelectionLayout.addWidget(dateLabel)
         self.categorySelectionLayout.addWidget(self.dateEdit)
 
+
+    def languageCheckBoxClicked(self,state):
+        if state == QtCore.Qt.Checked:
+            self.radioButton1.setText("Guild's events")
+            self.radioButton2.setText("Other organizations")
+            self.radioButton3.setText("General")
+            self.radioButton4.setText("Studies")
+        else:
+            self.radioButton1.setText("Killan tapahtumat")
+            self.radioButton2.setText("Muut yhdistykset")
+            self.radioButton3.setText("Yleistä")
+            self.radioButton4.setText("Opinnot")
 
 
     def createTextEditLayout(self):
@@ -104,7 +124,7 @@ class MainWindow(QDialog):
         self.buttonLayout.addWidget(clearPushButton)
         self.buttonLayout.addStretch(1)
         self.buttonLayout.addWidget(savePushButton)
-        
+
 
     def save(self):
         category = self.categorySelectionButtonGroup.checkedButton().text()
@@ -121,7 +141,7 @@ class MainWindow(QDialog):
             'date': date,
             'header': header,
             'content': content
-            })
+            }, self.languageCheckBox.isChecked())
         print ("Saved entry.")
 
 
@@ -129,7 +149,7 @@ class MainWindow(QDialog):
         self.headerLineEdit.clear()
         self.contentTextEdit.clear()
         self.dateEdit.setDateTime(QDateTime.currentDateTime())
-        
+
         print("Cleared entry.")
 
 
