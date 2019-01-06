@@ -16,21 +16,22 @@ contents_en = ""
 
 
 # TODO
+# - use Jinja for templating
 # - sort entries by date
 # - english version
 # - some smart way to make first paragraph
 # - maybe categories could be defined only in one place instead of two
 
 
-categories = ["Killan tapahtumat", "AYY ja Aalto", "Yleistä"]
+categories = ["Killan tapahtumat", "Muut yhdistykset", "Opinnot", "Yleistä"]
 # index for unique id:s to create links
 idx = 1
 for category in categories:
     entries = entriesFromCategory(category)
     if entries:
         table_of_contents += f"""<tr> 
-            <td style="color: #201E1E; font-family: Calibri; font-size: 24px;">
-            <b>{category}</b> 
+            <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
+            <i>{category}</i> 
             </td>
             </tr>\n"""
 
@@ -39,18 +40,59 @@ for category in categories:
             <ul style=" margin: 0;">\n"""
 
         for entry in entries:
-            table_of_contents += f"<li><a href='#id{idx}'>{entry['header']}</a></li>\n"
-            # replace linebreaks with corresponding html code
-            formattedContent = entry['content'].replace("\n", "<br/>")
+            # escape some characters and change linebreaks to html
+            formattedHeader = entry['header'].replace("&","&amp;")\
+                    .replace("<","&lt;").replace(">", "&gt;")\
+                    .replace("\"","&quot;").replace("\'","&apos;") 
+            formattedContent = entry['content'].replace("&","&amp;")\
+                    .replace("<","&lt;").replace(">", "&gt;")\
+                    .replace("\"","&quot;").replace("\'","&apos;").replace("\n", "<br/>")
+
+            table_of_contents += f"<li><a href='#id{idx}'>{formattedHeader}</a></li>\n"
+
             contents += f"""<tr>
                 <td id='id{idx}' style="padding: 10px 0px 15px 0px; font-family: Calibri; font-size: 16px;">
-                <b>{entry['header']}</b><br/>
+                <b>{formattedHeader}</b><br/>
                 {formattedContent}
                 </td>
                 </tr>\n"""
             idx += 1
 
         table_of_contents += "</ul>\n</td>\n</tr>\n"
+
+categories_en = ["Guild's events", "Other organizations", "Studies", "General"]
+for category in categories_en:
+    entries = entriesFromCategory(category, True)
+    if entries:
+        table_of_contents_en += f"""<tr> 
+            <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
+            <i>{category}</i> 
+            </td>
+            </tr>\n"""
+
+        table_of_contents_en += """<tr>
+            <td style="padding: 10px 0px 15px 0px; font-family: Calibri; font-size: 16px;">
+            <ul style=" margin: 0;">\n"""
+
+        for entry in entries:
+            formattedHeader = entry['header'].replace("&","&amp;")\
+                    .replace("<","&lt;").replace(">", "&gt;")\
+                    .replace("\"","&quot;").replace("\'","&apos;") 
+            formattedContent = entry['content'].replace("&","&amp;")\
+                .replace("<","&lt;").replace(">", "&gt;")\
+                .replace("\"","&quot;").replace("\'","&apos;").replace("\n", "<br/>")
+
+            table_of_contents_en += f"<li><a href='#id{idx}'>{formattedHeader}</a></li>\n"
+
+            contents_en += f"""<tr>
+                <td id='id{idx}' style="padding: 10px 0px 15px 0px; font-family: Calibri; font-size: 16px;">
+                <b>{formattedHeader}</b><br/>
+                {formattedContent}
+                </td>
+                </tr>\n"""
+            idx += 1
+
+        table_of_contents_en += "</ul>\n</td>\n</tr>\n"
 
 
 d = {
