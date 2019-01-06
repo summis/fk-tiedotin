@@ -14,14 +14,25 @@ week = (date.today() + timedelta(days=13)).strftime('%W')
 # TODO 
 # -save also a preview for contents of news letter. This could be shown in GUI to 
 #  give an idea how much content there already is in the news letter.
-db = TinyDB(f'data/week{week}.json')
 entries = Query()
 
-def saveEntry(dict):
+
+def saveEntry(dict, isEnglish=False):
+    if isEnglish:
+        path = f'data/week{week}-en.json'
+    else:
+        path = f'data/week{week}.json'
+
+    db = TinyDB(path)
     db.insert(dict)
 
-def allEntries():
-    return db.all()
 
-def entriesFromCategory(cat):
+
+def entriesFromCategory(cat, isEnglish=False):
+    if isEnglish:
+        path = f'data/week{week}-en.json'
+    else:
+        path = f'data/week{week}.json'
+
+    db = TinyDB(path)
     return db.search(entries.category == cat)
