@@ -6,9 +6,6 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
         QDateEdit, QCheckBox)
 from database import saveEntry
 
-#TODO
-#-own tab for newsletter in english
-#-correct lables in both languages
 
 class MainWindow(QDialog):
     def __init__(self, parent=None):
@@ -42,7 +39,7 @@ class MainWindow(QDialog):
 
 
     def createCategorySelectionGroupBox(self):
-        self.languageCheckBox = QCheckBox("Put entry to English news letter", self)
+        self.languageCheckBox = QCheckBox("Text in English", self)
         self.languageCheckBox.stateChanged.connect(self.languageCheckBoxClicked)
 
         categorySelectionGroupBox = QGroupBox("Category")
@@ -126,15 +123,12 @@ class MainWindow(QDialog):
         self.buttonLayout.addWidget(savePushButton)
 
 
+
     def save(self):
         category = self.categorySelectionButtonGroup.checkedButton().text()
         date = [self.dateEdit.date().day(), self.dateEdit.date().month(), self.dateEdit.date().year()]
         header = self.headerLineEdit.text()
         content = self.contentTextEdit.toPlainText()
-
-        self.dateEdit.setDateTime(QDateTime.currentDateTime())
-        self.headerLineEdit.clear()
-        self.contentTextEdit.clear()
 
         saveEntry({
             'category': category,
@@ -142,15 +136,18 @@ class MainWindow(QDialog):
             'header': header,
             'content': content
             }, self.languageCheckBox.isChecked())
-        print ("Saved entry.")
+        #print("Saved entry.")
+        
+        self.clear()
 
 
     def clear(self):
         self.headerLineEdit.clear()
         self.contentTextEdit.clear()
+        self.languageCheckBox.setCheckState(0)
         self.dateEdit.setDateTime(QDateTime.currentDateTime())
 
-        print("Cleared entry.")
+        #print("Cleared entry.")
 
 
 
