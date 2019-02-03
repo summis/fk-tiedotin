@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 """ 
 To make an newsletter for a specific week (eg week 1) last possible occasion 
-to do it is on Monday of that specific week (week 1). On Tuesday newsletter is made for a 
+to do it is on Monday of that specific week (week 1). On Tuesday newsletter is made for the 
 following week (week 2). Timdelta correction below takes into account this and a fact 
 that datetime library consideres week 1 to be the year's first week that starts from Monday,
 which differs from finnish convention. Correction is different every year.
@@ -36,3 +36,14 @@ def entriesFromCategory(cat, isEnglish=False):
 
     db = TinyDB(path)
     return db.search(entries.category == cat)
+
+
+
+def allEntries(isEnglish=False):
+    if isEnglish:
+        path = 'data/week' + week + '-en.json'
+    else:
+        path = 'data/week' + week + '.json'
+    db = TinyDB(path)
+    return db.all()
+
