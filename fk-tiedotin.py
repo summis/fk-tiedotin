@@ -1,19 +1,16 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QDateTime
 from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
         QRadioButton, QHBoxLayout, QVBoxLayout, QStyleFactory, QLineEdit, 
         QTextEdit, QLabel, QPushButton, QTabWidget, QWidget, QButtonGroup,
-        QDateEdit, QCheckBox)
+        QDateEdit, QCheckBox, QShortcut)
 from database import saveEntry
+import pyperclip
 
 
 class MainWindow(QDialog):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-
-        #languageSelectionTabWidget = QTabWidget(self)
-        #tab1 = QWidget()
-        #tab2 = QWidget()
 
         self.createCategorySelectionGroupBox()
         self.createTextEditLayout()
@@ -25,13 +22,12 @@ class MainWindow(QDialog):
         mainLayout.addLayout(self.buttonLayout, 2, 0)
         self.setLayout(mainLayout)
 
-        #tab1.setLayout(mainLayout)
-        #languageSelectionTabWidget.addTab(tab1, "Finnish")
-        #languageSelectionTabWidget.addTab(tab2, "English")
-
-        #mainMainLayout = QHBoxLayout()
-        #mainMainLayout.addWidget(languageSelectionTabWidget)
-        ##self.setLayout(mainMainLayout)
+        # some hotkey bindings
+        QShortcut(QtGui.QKeySequence( "Ctrl+H" ), self).activated.connect(self.copyContentToHeader)
+        QShortcut(QtGui.QKeySequence( "Ctrl+X" ), self).activated.connect(self.clear)
+        QShortcut(QtGui.QKeySequence( "Ctrl+B" ), self).activated.connect(self.copyContentToTextArea)
+        QShortcut(QtGui.QKeySequence( "Ctrl+S" ), self).activated.connect(self.save)
+        QShortcut(QtGui.QKeySequence( "Ctrl+Q" ), self).activated.connect(self.close)
 
         QApplication.setStyle(QStyleFactory.create("cleanlooks"))
         self.setWindowTitle("Fk-tiedotin")
@@ -77,6 +73,7 @@ class MainWindow(QDialog):
         self.categorySelectionLayout.addWidget(self.dateEdit)
 
 
+
     def languageCheckBoxClicked(self,state):
         if state == QtCore.Qt.Checked:
             self.radioButton1.setText("Guild's events")
@@ -88,6 +85,17 @@ class MainWindow(QDialog):
             self.radioButton2.setText("Muut yhdistykset")
             self.radioButton3.setText("Yleistä")
             self.radioButton4.setText("Opinnot")
+
+
+
+    def copyContentToHeader(self):
+        self.headerLineEdit.setText(pyperclip.paste())
+
+
+
+    def copyContentToTextArea(self):
+        self.contentTextEdit.setText(pyperclip.paste())
+
 
 
     def createTextEditLayout(self):
@@ -136,7 +144,6 @@ class MainWindow(QDialog):
             'header': header,
             'content': content
             }, self.languageCheckBox.isChecked())
-        #print("Saved entry.")
         
         self.clear()
 
@@ -146,8 +153,6 @@ class MainWindow(QDialog):
         self.contentTextEdit.clear()
         self.languageCheckBox.setCheckState(0)
         self.dateEdit.setDateTime(QDateTime.currentDateTime())
-
-        #print("Cleared entry.")
 
 
 
