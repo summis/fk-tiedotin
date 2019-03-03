@@ -28,6 +28,7 @@ categories = ["Killan tapahtumat", "Muut yhdistykset", "Opinnot", "Yleistä"]
 idx = 1
 for category in categories:
     entries = entriesFromCategory(category)
+    entries.sort(key=lambda k: date(k['date'][2], k['date'][1], k['date'][0]))
     if entries:
         table_of_contents += f"""<tr> 
             <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
@@ -63,6 +64,7 @@ for category in categories:
 categories_en = ["Guild's events", "Other organizations", "Studies", "General"]
 for category in categories_en:
     entries = entriesFromCategory(category, True)
+    entries.sort(key=lambda k: date(k['date'][2], k['date'][1], k['date'][0]))
     if entries:
         table_of_contents_en += f"""<tr> 
             <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
