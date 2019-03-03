@@ -13,10 +13,13 @@ def nl2br(s):
 
 env.filters['nl2br'] = nl2br
 
+categories = ["Killan tapahtumat", "Muut yhdistykset", "Opinnot", "Yleistä"]
+categoriesEn = ["Guild's events", "Other organizations", "Studies", "General"]
+
 
 template = env.get_template('bulletin.html')
-all_entries = allEntries(False)
-all_entries_english = allEntries(True)
+all_entries = sorted(allEntries(False), key=lambda k: categories.index(k['category']))
+all_entries_english = sorted(allEntries(True), key=lambda k: categoriesEn.index(k['category']))
 variables = {
     "title": "Fyysikkokillan viikkotiedote",
     "header": "Kilta tiedottaa / Guild News \nviikko / week " + week,
@@ -24,7 +27,12 @@ variables = {
     "all_entries_english": all_entries_english
 }
 
+#TODO: consider greating custom filter for grouping entries in order to preserve order
+#    - order = list all categories in desired order
+#    - sorted(allEntries(), key=lambda k: order[k['category']])
+#    - gather and sort list that were achieved with this
 
+#TODO: 
 tiedote = template.render(variables)
 with open('bulletin.html', 'w') as f:
     f.write(tiedote)
