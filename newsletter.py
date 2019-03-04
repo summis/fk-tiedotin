@@ -1,6 +1,8 @@
 from database import entriesFromCategory, week
 from string import Template
 from datetime import date, timedelta
+from config import *
+
 
 with open("kilta-tiedottaa-template.html", 'r') as f:
     txt = f.read()
@@ -23,7 +25,7 @@ contents_en = ""
 # - maybe categories could be defined only in one place instead of two
 
 
-categories = ["Killan tapahtumat", "Muut yhdistykset", "Opinnot", "Yleistä"]
+#categories = ["Killan tapahtumat", "Muut yhdistykset", "Opinnot", "Yleistä"]
 # index for unique id:s to create links
 idx = 1
 for category in categories:
@@ -60,8 +62,8 @@ for category in categories:
 
         table_of_contents += "</ul>\n</td>\n</tr>\n"
 
-categories_en = ["Guild's events", "Other organizations", "Studies", "General"]
-for category in categories_en:
+#categories_en = ["Guild's events", "Other organizations", "Studies", "General"]
+for category in categoriesEn:
     entries = entriesFromCategory(category, True)
     if entries:
         table_of_contents_en += f"""<tr> 
