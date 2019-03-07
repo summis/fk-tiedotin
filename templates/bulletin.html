@@ -30,8 +30,8 @@
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding: 20px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
-                      In English below
+                    <td align="right" style="padding: 20px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
+                        <a href="#in_english" style="color: #ff8a04;"><b>In English below</b></a>
                     </td>
                   </tr>
                   <tr>
@@ -39,26 +39,51 @@
                       !! TEXT HERE !!
                     </td>
                   </tr>
-
-                  {% for entries in all_entries|groupby('category') %}
+                  {% for (cat, (this_week, following_week)) in category_events %}
                   <tr> 
                     <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
-                      <i>{{ entries.grouper }}</i> 
+                      <i>{{ cat}}</i> 
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding: 10px 0px 15px 0px; font-family: Calibri; font-size: 16px;">
-                      <ul style=" margin: 0;">
-                      {% for entry in entries.list %}
-                        <li><a href="#entry_num_{{ entry.doc_id }}">{{ entry.header|e }}</a></li>
+                    <td style="padding: 10px 0px 0px 0px; font-family: Georgia; font-size: 18px;">
+                        <i>Tällä viikolla</i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 5px 0px 5px 0px; font-family: Calibri; font-size: 16px;">
+                      <ul style="margin: 0; list-style: none; padding-left: 0;">
+                      {% for entry in this_week %}
+                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                      {% endfor %}
+                      </ul>
+		    </td>
+		  </tr>
+                  <tr>
+                    <td style="padding: 0px 0px 0px 0px; font-family: Georgia; font-size: 18px;">
+                        <i>Tulevilla viikolla</i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 5px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
+                      <ul style="margin: 0; list-style: none; padding-left: 0;">
+                      {% for entry in following_week %}
+                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
                     </td>
                   </tr>
                   {% endfor %}
-
-                  {% for entries in all_entries|groupby('category') %}
-                  {% for entry in entries.list %}
+                  {% for (cat, (entries1, entries2)) in category_events %}
+                  {% for entry in entries1 %}
+                  <tr>
+                    <td id="entry_num_{{entry.doc_id}}" style="padding: 10px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
+                      <b>{{ entry.header|e }}</b><br/>
+                      {{ entry.content|e|nl2br }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% for entry in entries2 %}
                   <tr>
                     <td id="entry_num_{{entry.doc_id}}" style="padding: 10px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
                       <b>{{ entry.header|e }}</b><br/>
@@ -67,8 +92,7 @@
                   </tr>
                   {% endfor %}
                   {% endfor %}
-
-                  <tr>
+                  <tr id="in_english">
                     <td align="center" style="padding: 50px 0px 70px 0px;font-family: Calibri; font-size: 16px;">
                       ***
                     </td>
@@ -78,25 +102,51 @@
                       !! TEXT HERE !!
                     </td>
                   </tr>
-                  {% for entries in all_entries_english|groupby('category') %}
+                  {% for (cat, (this_week, following_week)) in category_events_en %}
                   <tr> 
-                    <td style="color: #201e1e; font-family: georgia; font-size: 24px;">
-                      <i>{{ entries.grouper }}</i> 
+                    <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
+                      <i>{{ cat}}</i> 
                     </td>
                   </tr>
                   <tr>
-                    <td style="padding: 10px 0px 15px 0px; font-family: calibri; font-size: 16px;">
-                      <ul style=" margin: 0;">
-                      {% for entry in entries.list %}
-                        <li><a href="#entry_num_{{ entry.doc_id }}">{{ entry.header|e }}</a></li>
+                    <td style="padding: 10px 0px 0px 0px; font-family: Georgia; font-size: 18px;">
+                        <i>This week</i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 5px 0px 5px 0px; font-family: Calibri; font-size: 16px;">
+                      <ul style="margin: 0; list-style: none; padding-left: 0;">
+                      {% for entry in this_week %}
+                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                      {% endfor %}
+                      </ul>
+		    </td>
+		  </tr>
+                  <tr>
+                    <td style="padding: 0px 0px 0px 0px; font-family: Georgia; font-size: 18px;">
+                        <i>Following week</i>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 5px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
+                      <ul style="margin: 0; list-style: none; padding-left: 0;">
+                      {% for entry in following_week %}
+                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
                     </td>
                   </tr>
                   {% endfor %}
-
-                  {% for entries in all_entries_english|groupby('category') %}
-                  {% for entry in entries.list %}
+                  {% for (cat, (entries1, entries2)) in category_events_en %}
+                  {% for entry in entries1 %}
+                  <tr>
+                    <td id="entry_num_en{{entry.doc_id}}" style="padding: 10px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
+                      <b>{{ entry.header|e }}</b><br/>
+                      {{ entry.content|e|nl2br }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% for entry in entries2 %}
                   <tr>
                     <td id="entry_num_{{entry.doc_id}}" style="padding: 10px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
                       <b>{{ entry.header|e }}</b><br/>
