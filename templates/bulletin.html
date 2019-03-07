@@ -31,7 +31,7 @@
                   </tr>
                   <tr>
                     <td align="right" style="padding: 20px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
-                        <a href="#in_english" style="color: #ff8a04;"><b>In English below</b></a>
+                        <a href="#in_english" style="color: #ff8a04; text-decoration:none;"><b>In English below</b></a>
                     </td>
                   </tr>
                   <tr>
@@ -54,7 +54,7 @@
                     <td style="padding: 5px 0px 5px 0px; font-family: Calibri; font-size: 16px;">
                       <ul style="margin: 0; list-style: none; padding-left: 0;">
                       {% for entry in this_week %}
-                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04; text-decoration:none;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
 		    </td>
@@ -68,7 +68,7 @@
                     <td style="padding: 5px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
                       <ul style="margin: 0; list-style: none; padding-left: 0;">
                       {% for entry in following_week %}
-                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                        <li>&gt<a href="#entry_num_{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04; text-decoration:none;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
                     </td>
@@ -117,7 +117,7 @@
                     <td style="padding: 5px 0px 5px 0px; font-family: Calibri; font-size: 16px;">
                       <ul style="margin: 0; list-style: none; padding-left: 0;">
                       {% for entry in this_week %}
-                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04; text-decoration:none;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
 		    </td>
@@ -131,7 +131,7 @@
                     <td style="padding: 5px 0px 20px 0px; font-family: Calibri; font-size: 16px;">
                       <ul style="margin: 0; list-style: none; padding-left: 0;">
                       {% for entry in following_week %}
-                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04;"> {{ entry.header|e }}</a></li>
+                        <li>&gt<a href="#entry_num_en{{ entry.doc_id }}" style="padding-left: 1em; color: #ff8a04; text-decoration:none;"> {{ entry.header|e }}</a></li>
                       {% endfor %}
                       </ul>
                     </td>
