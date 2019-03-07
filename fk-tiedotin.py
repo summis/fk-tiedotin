@@ -3,7 +3,7 @@ from PyQt5.QtCore import QDateTime
 from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
         QRadioButton, QHBoxLayout, QVBoxLayout, QStyleFactory, QLineEdit, 
         QTextEdit, QLabel, QPushButton, QTabWidget, QWidget, QButtonGroup,
-        QDateEdit, QCheckBox, QShortcut)
+        QDateEdit, QCheckBox, QShortcut, QTextBrowser)
 from database import saveEntry
 import pyperclip
 
@@ -28,6 +28,7 @@ class MainWindow(QDialog):
         QShortcut(QtGui.QKeySequence( "Ctrl+B" ), self).activated.connect(self.copyContentToTextArea)
         QShortcut(QtGui.QKeySequence( "Ctrl+S" ), self).activated.connect(self.save)
         QShortcut(QtGui.QKeySequence( "Ctrl+Q" ), self).activated.connect(self.close)
+        #QShortcut(QtGui.QKeySequence( "Ctrl+M" ), self).activated.connect(self.hide)
 
         QApplication.setStyle(QStyleFactory.create("cleanlooks"))
         self.setWindowTitle("Fk-tiedotin")
@@ -42,7 +43,7 @@ class MainWindow(QDialog):
         self.categorySelectionButtonGroup = QButtonGroup()
 
         self.radioButton1 = QRadioButton("Killan tapahtumat")
-        self.radioButton2 = QRadioButton("Muut yhdistykset")
+        self.radioButton2 = QRadioButton("Muut tapahtumat")
         self.radioButton3 = QRadioButton("Yleistä")
         self.radioButton4 = QRadioButton("Opinnot")
         self.radioButton1.setChecked(True)
@@ -77,12 +78,12 @@ class MainWindow(QDialog):
     def languageCheckBoxClicked(self,state):
         if state == QtCore.Qt.Checked:
             self.radioButton1.setText("Guild's events")
-            self.radioButton2.setText("Other organizations")
+            self.radioButton2.setText("Other events")
             self.radioButton3.setText("General")
             self.radioButton4.setText("Studies")
         else:
             self.radioButton1.setText("Killan tapahtumat")
-            self.radioButton2.setText("Muut yhdistykset")
+            self.radioButton2.setText("Muut tapahtumat")
             self.radioButton3.setText("Yleistä")
             self.radioButton4.setText("Opinnot")
 
@@ -96,6 +97,13 @@ class MainWindow(QDialog):
     def copyContentToTextArea(self):
         self.contentTextEdit.setText(pyperclip.paste())
 
+
+    #def hide(self):
+    #    self.headerLineEdit.hide()
+    #    self.textBrowser = QTextBrowser()
+    #    self.textBrowser.setGeometry(QtCore.QRect(390, 10, 531, 681))
+    #    self.textBrowser.setObjectName("textBrowser")
+    #    self.textBrowser.show()
 
 
     def createTextEditLayout(self):
