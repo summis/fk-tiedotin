@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
         QTextEdit, QLabel, QPushButton, QTabWidget, QWidget, QButtonGroup,
         QDateEdit, QCheckBox, QShortcut, QTextBrowser)
 from database import saveEntry
-import pyperclip
 
 
 class MainWindow(QDialog):
@@ -21,14 +20,6 @@ class MainWindow(QDialog):
         mainLayout.addLayout(self.textEditLayout, 1, 0)
         mainLayout.addLayout(self.buttonLayout, 2, 0)
         self.setLayout(mainLayout)
-
-        # some hotkey bindings
-        QShortcut(QtGui.QKeySequence( "Ctrl+H" ), self).activated.connect(self.copyContentToHeader)
-        QShortcut(QtGui.QKeySequence( "Ctrl+X" ), self).activated.connect(self.clear)
-        QShortcut(QtGui.QKeySequence( "Ctrl+B" ), self).activated.connect(self.copyContentToTextArea)
-        QShortcut(QtGui.QKeySequence( "Ctrl+S" ), self).activated.connect(self.save)
-        QShortcut(QtGui.QKeySequence( "Ctrl+Q" ), self).activated.connect(self.close)
-        #QShortcut(QtGui.QKeySequence( "Ctrl+M" ), self).activated.connect(self.hide)
 
         QApplication.setStyle(QStyleFactory.create("cleanlooks"))
         self.setWindowTitle("Fk-tiedotin")
@@ -88,14 +79,6 @@ class MainWindow(QDialog):
             self.radioButton4.setText("Opinnot")
 
 
-
-    def copyContentToHeader(self):
-        self.headerLineEdit.setText(pyperclip.paste())
-
-
-
-    def copyContentToTextArea(self):
-        self.contentTextEdit.setText(pyperclip.paste())
 
 
     #def hide(self):
