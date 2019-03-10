@@ -1,8 +1,8 @@
 from jinja2 import Environment, PackageLoader, select_autoescape, Markup
-from database import entriesFromCategory, week, allEntries
+from database import week, allEntries
 from itertools import groupby
 from tinydb import *
-from datetime import date
+from datetime import date, timedelta
 
 # TODO: consider replacing lambdas with own functions, category sort and datesort
 # TODO: consider only one big database where relevant events are queried only by date
@@ -12,6 +12,8 @@ from datetime import date
 # Tell ninja to look templates from templates-folder, manual escaping is used
 env = Environment(
     loader=PackageLoader('fk-tiedotin', 'templates'),
+    trim_blocks=True,
+    lstrip_blocks=True,
 )
 
 # Function that changes linebreaks to <br /> tags. This is added to env's filters.
@@ -36,8 +38,8 @@ for k, g in groupby(all_entries, key=lambda k: categories.index(k['category'])):
     #then sort by date to
     events_sorted = sorted(list(g), key=lambda k: date(k['date'][2], k['date'][1], k['date'][0]))
     # note the +1 that is added to date: python starts indexing week from 0
-    this_week = [e for e in events_sorted if int(date(e['date'][2], e['date'][1], e['date'][0]).strftime('%U')) +1 == int(week)]
-    following_week = [e for e in events_sorted if int(date(e['date'][2], e['date'][1], e['date'][0]).strftime('%U')) + 1 > int(week)]
+    this_week = [e for e in events_sorted if int((date(e['date'][2], e['date'][1], e['date'][0]) - timedelta(days=1)).strftime('%U')) +1 == int(week)]
+    following_week = [e for e in events_sorted if int((date(e['date'][2], e['date'][1], e['date'][0]) - timedelta(days=1)).strftime('%U')) + 1 > int(week)]
     a = (categories[k], (this_week, following_week))
     pairs.append(a)
 
@@ -45,16 +47,16 @@ for k, g in groupby(all_entries_en, key=lambda k: categoriesEn.index(k['category
     #then sort by date to
     events_sorted = sorted(list(g), key=lambda k: date(k['date'][2], k['date'][1], k['date'][0]))
     # note the +1 that is added to date: python starts indexing week from 0
-    this_week = [e for e in events_sorted if int(date(e['date'][2], e['date'][1], e['date'][0]).strftime('%U')) +1 == int(week)]
-    following_week = [e for e in events_sorted if int(date(e['date'][2], e['date'][1], e['date'][0]).strftime('%U')) + 1 > int(week)]
+    this_week = [e for e in events_sorted if int((date(e['date'][2], e['date'][1], e['date'][0]) - timedelta(days=1)).strftime('%U')) +1 == int(week)]
+    following_week = [e for e in events_sorted if int((date(e['date'][2], e['date'][1], e['date'][0]) - timedelta(days=1)).strftime('%U')) + 1 > int(week)]
     a = (categoriesEn[k], (this_week, following_week))
     pairs_en.append(a)
 
-template = env.get_template('bulletin.html')
+template = env.get_template('cells.html')
 all_entries_english = sorted(allEntries(True), key=lambda k: categoriesEn.index(k['category']))
 variables = {
     "title": "Fyysikkokillan viikkotiedote",
-    "header": "Kilta tiedottaa / Guild News \nviikko / week " + week,
+    "header": week + "/2019\n" + "Kilta tiedottaa - Guild News",
     "all_entries": all_entries,
     "category_events": pairs,
     "category_events_en": pairs_en,
