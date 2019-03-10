@@ -1,0 +1,54 @@
+{% extends "bulletin.html" %}
+
+{% block header %}
+<tr>
+  <td width="75%" align="center" valign="bottom" style="color: #201E1E; font-family: Calibri; font-size: 31px; padding: 10px 30px 10px 30px;">
+    <b>{{ header|nl2br }}</b>
+  </td>
+</tr>
+{% endblock %}
+
+
+{% block fillme %}
+<tr>
+  <td style="padding: 10px 0px 30px 0px; font-family: Calibri; font-size: 16px;">
+    !! TEXT HERE !!
+  </td>
+</tr>
+{% endblock %}
+
+{% block toc %}
+{% for (cat, (this_week, following_week)) in category_events %}
+<tr> 
+  <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
+    <i>{{ cat }}</i> 
+  </td>
+</tr>
+{% block this_week scoped %}{% endblock %}
+{% block following_week scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+{% for (cat, (this_week, following_week)) in category_events %}
+{% block events scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block toc_en %}
+{% for (cat, (this_week, following_week)) in category_events_en %}
+<tr> 
+  <td style="color: #201E1E; font-family: Georgia; font-size: 24px;">
+    <i>{{ cat }}</i> 
+  </td>
+</tr>
+{% block this_week_en scoped %}{% endblock %}
+{% block following_week_en scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
+
+{% block content_en %}
+{% for (cat, (this_week, following_week)) in category_events_en %}
+{% block events_en scoped %}{% endblock %}
+{% endfor %}
+{% endblock %}
