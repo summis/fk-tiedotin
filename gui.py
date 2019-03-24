@@ -30,6 +30,8 @@ class MainWindow(QDialog):
         self.languageCheckBox = QCheckBox("Text in English", self)
         self.languageCheckBox.stateChanged.connect(self.languageCheckBoxClicked)
 
+        self.toBothBulletinsCheckBox = QCheckBox("Add to both versions", self)
+
         categorySelectionGroupBox = QGroupBox("Category")
         self.categorySelectionButtonGroup = QButtonGroup()
 
@@ -60,6 +62,7 @@ class MainWindow(QDialog):
 
         self.categorySelectionLayout = QVBoxLayout()
         self.categorySelectionLayout.addWidget(self.languageCheckBox)
+        self.categorySelectionLayout.addWidget(self.toBothBulletinsCheckBox)
         self.categorySelectionLayout.addWidget(categorySelectionGroupBox)
         self.categorySelectionLayout.addWidget(dateLabel)
         self.categorySelectionLayout.addWidget(self.dateEdit)
@@ -122,7 +125,6 @@ class MainWindow(QDialog):
         self.buttonLayout.addWidget(savePushButton)
 
 
-
     def save(self):
         category = self.categorySelectionButtonGroup.checkedButton().text()
         date = [self.dateEdit.date().day(), self.dateEdit.date().month(), self.dateEdit.date().year()]
@@ -135,7 +137,15 @@ class MainWindow(QDialog):
             'header': header,
             'content': content
             }, self.languageCheckBox.isChecked())
-        
+
+        if self.toBothBulletinsCheckBox.isChecked():
+            save_entry({
+                'category': category,
+                'date': date,
+                'header': header,
+                'content': content
+                }, not self.languageCheckBox.isChecked())
+
         self.clear()
 
 
@@ -143,6 +153,7 @@ class MainWindow(QDialog):
         self.headerLineEdit.clear()
         self.contentTextEdit.clear()
         self.languageCheckBox.setCheckState(0)
+        self.toBothBulletinsCheckBox.setCheckState(0)
         self.dateEdit.setDateTime(QDateTime.currentDateTime())
 
 
