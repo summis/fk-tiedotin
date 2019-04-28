@@ -14,8 +14,8 @@ from tinydb import TinyDB, Query
 # which differs from finnish convention.  Correction is different every year.
 week = (date.today()+timedelta(days=13)).strftime('%W')
 
-categories = ["Killan tapahtumat", "Muut tapahtumat", "Opinnot", "Yleistä"]
-categories_en = ["Guild's events", "Other events", "Studies", "General"]
+categories = ["Yleistä", "Killan tapahtumat", "Muut tapahtumat", "Opinnot"]
+categories_en = ["General", "Guild's events", "Other events", "Studies"]
 
 
 
@@ -67,7 +67,9 @@ def grouper(entries, cats):
     category_and_events = []
     for k, g in groupby(entries, key=partial(category_sort, cats=cats)):
         events_sorted = sorted(list(g), key=date_sort)
+
         this_week = [e for e in events_sorted if in_current_week(e)]
         following_week = [e for e in events_sorted if not in_current_week(e)]
+
         category_and_events.append((cats[k], (this_week, following_week)))
     return category_and_events

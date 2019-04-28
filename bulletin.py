@@ -16,7 +16,6 @@ def nl2br(s):
     """Change linebreaks to <br /> tags.""" 
     return s.replace('\n', Markup('<br/>\n'))   
 
-
 env.filters['nl2br'] = nl2br    # Add function to env's filters.
 
 
