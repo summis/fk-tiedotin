@@ -1,3 +1,8 @@
+[iha ok mut ootko kattonu...](https://github.com/NikoDaGreat/fk-tiedotin)
+
+
+
+
 # FK-tiedotin
 Tool for making a structured weekly bulletin. Information about events are fed to the GUI (information includes header, date, category of event and date) and they are saved to a database. Formatted html-file is created from database entries that can be used in emails and websites. 
 
